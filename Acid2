@@ -1,0 +1,79 @@
+import java.util.HashSet;
+import java.util.Scanner;
+
+
+public class Acid2 {
+
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int scanners = sc.nextInt();
+        int[] sVal = new int[scanners];
+        int mostFreq = 0;
+        int mostFreq1 =0;
+        int mostFreq2 =0;
+        int m2dif = 0;
+        int absDif = 0;
+        int freq = 0;
+        int [] times = new int[1001];
+        HashSet<Integer> mostFreqNums = new HashSet<>();
+        int m2 = 0;
+        HashSet<Integer> m2Freq = new HashSet<>();
+
+        for(int i = 0; i<scanners; i++){
+            sVal[i] = sc.nextInt();
+        }
+        // inputs frequency of all numbers into an array
+        for(int i = 0; i<scanners; i++){
+            times[sVal[i]]++;
+        }
+        // finds the highest frequency
+        for(int j = 0; j< times.length; j++){
+            if(times[j]> freq){
+                freq = times[j];
+            }
+        }
+        //finds all numbers at highest frequency.
+        for(int i = 0; i<times.length;i++){
+            if(times[i] == freq){
+                mostFreqNums.add(i);
+            }
+        }
+        Object[] m1a = mostFreqNums.toArray();
+        // finding 2nd highest number
+        for(int j = 0; j< times.length; j++){
+            if(times[j] == freq){
+                times[j] = 0;
+            }
+            if(times[j]> m2){
+                m2 = times[j];
+            }
+        }
+        for(int i = 0; i<times.length;i++){
+            if(times[i] == m2){
+                m2Freq.add(i);
+            }
+        }
+
+
+        Object [] m2a = m2Freq.toArray();
+        if(m1a.length >=2){
+            absDif = Math.abs((int)m1a[0] - (int)m1a[m1a.length-1]);
+        }
+        else{
+            mostFreq1 = (int) m1a[0];
+
+            if(m2a.length >= 2){
+                int dif;
+                for(int i =0; i<m2a.length; i++){
+                    dif = mostFreq1 - (int)m2a[i];
+                    if(dif > m2dif){
+                        m2dif = dif;
+                        mostFreq2 = (int)m2a[i];
+                    }
+                }
+            }
+            absDif =Math.abs( mostFreq1 -mostFreq2);
+        }
+        System.out.println(absDif);
+    }
+}
