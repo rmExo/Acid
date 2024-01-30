@@ -1,0 +1,104 @@
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Scanner;
+
+
+public class Acid2 {
+
+    public static void main(String[] args){
+        // input
+        Scanner sc = new Scanner(System.in);
+        // takes in number of scanners
+        int scanners = sc.nextInt();
+        //stores all data
+        int[] sVal = new int[scanners];
+        //declaring more variables
+        int mostFreq1 =0;
+        int mostFreq2 =0;
+        int m2dif = 0;
+        int absDif = 0;
+        int freq = 0;
+        // frequency array to keep track of the number of values
+        int [] times = new int[1001];
+        // hashset to store the most frequent values
+        HashSet<Integer> mostFreqNums = new HashSet<>();
+        int m2 = 0;
+        //hashset to store the second most frequent values
+        HashSet<Integer> m2Freq = new HashSet<>();
+        // takes in all data
+        for(int i = 0; i<scanners; i++){
+            sVal[i] = sc.nextInt();
+        }
+        // inputs frequency of all numbers into the frequency array
+        for(int i = 0; i<scanners; i++){
+            times[sVal[i]]++;
+        }
+        // finds the highest frequency
+        for(int j = 0; j< times.length; j++){
+            if(times[j]> freq){
+                freq = times[j];
+            }
+        }
+        //finds all numbers at highest frequency.
+        for(int i = 0; i<times.length;i++){
+            if(times[i] == freq){
+                mostFreqNums.add(i);
+            }
+        }
+        //transforms all the values in the hashmap into an array
+        Object[] m1a = mostFreqNums.toArray();
+        // finding 2nd highest number
+        for(int j = 0; j< times.length; j++){
+            if(times[j] == freq){
+                times[j] = 0;
+            }
+            if(times[j]> m2){
+                m2 = times[j];
+            }
+        }
+        // adding the 2nd most frequent into the 2nd hashmap
+        for(int i = 0; i<times.length;i++){
+            if(times[i] == m2){
+                m2Freq.add(i);
+            }
+        }
+        // adding it into an array to access elements easier
+        Object [] m2a = m2Freq.toArray();
+        // casework to find most divergent values based upon rules in the question. 
+        if(m1a.length >=2){
+            //case where most frequent has 2+ values. 
+            absDif = Math.abs((int)m1a[0] - (int)m1a[m1a.length-1]);
+        }
+        else{
+            // case when most freq has 1 value.
+            mostFreq1 = (int) m1a[0];
+            // subcase of 1 most, 2+ second most
+            if(m2a.length >= 2){
+                int dif;
+                for(int i =0; i<m2a.length; i++){
+                    dif = Math.abs( mostFreq1 - (int)m2a[i]);
+                    if(dif > m2dif){
+                        m2dif = dif;
+                        mostFreq2 = (int)m2a[i];
+                    }
+                }
+            }
+            else{
+                // subcase of 1 most, 1 second most. 
+                mostFreq2 = (int)m2a[0];
+            }
+            // sticking it into a final value. 
+            absDif =Math.abs( mostFreq1 - mostFreq2);
+        }
+        // print statements for all the important testing things
+        
+        // the only one that matters
+        System.out.println(absDif);
+        
+        //test things. 
+        System.out.println(mostFreqNums);
+        System.out.println(freq);
+        System.out.println(m2Freq);
+        System.out.println(m2);
+    }
+}
